@@ -7,8 +7,13 @@ const app = express()
 
 app.listen(port, () => {
   console.log('\n\n-----------------------------------------------------------')
-  console.log(`Server is started at port ${port}`)
-  console.log((new Date()).toString())
+  console.log(`Server is started at port ${port}\n`)
+})
+
+app.use((req, res, next) => {
+  console.log('* ' + (new Date()).toString())
+  console.log(`  Request method: ${req.method}`)
+  next()
 })
 
 app.use('/api/goals', require('./routes/goalRoutes'))
