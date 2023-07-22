@@ -16,14 +16,17 @@ app.listen(port, () => {
   console.log(`Server is started at port ${port}`)
 })
 
+// able to recieve json data from Http request
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
+// output info of each request
 app.use(requestInfo)
 
+// map all request which starts with '/api/goals'
 app.use('/api/goals', require('./routes/goalRoutes'))
 
-
+// a middleware to handle error, always make it as the last middleware
 app.use(errorHandler)
 
 
