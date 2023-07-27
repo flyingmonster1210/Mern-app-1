@@ -25,6 +25,7 @@ app.use(requestInfo)
 
 // map all request which starts with '/api/goals'
 app.use('/api/goals', require('./routes/goalRoutes'))
+app.use('/api/users', require('./routes/userRoutes'))
 
 // a middleware to handle error, always make it as the last middleware
 app.use(errorHandler)
