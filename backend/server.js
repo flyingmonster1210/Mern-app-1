@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: false }))
 // output info of each request
 app.use(requestInfo)
 
-// map all request which starts with '/api/goals'
+// map all request 
 app.use('/api/goals', require('./routes/goalRoutes'))
 app.use('/api/users', require('./routes/userRoutes'))
 
