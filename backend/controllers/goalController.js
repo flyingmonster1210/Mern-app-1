@@ -1,19 +1,19 @@
 
 const asyncHandler = require('express-async-handler')
-
+const User = require('../models/userModel')
 const Goal = require('../models/goalModel')
 
 // @desc    Show all the goals
 // @route   GET /api/uses
-// @access  public
+// @access  Private
 const getGoals = asyncHandler(async (req, res) => {
-  const goals = await Goal.find()
+  const goals = await Goal.find({ user: req.user.id })
   res.json(goals)
 })
 
 // @desc    Add a new goal 
 // @route   POST /api/uses
-// @access  public
+// @access  Private
 const setGoals = asyncHandler(async (req, res) => {
   // console.log(req.body)
   if (!req.body.text) {
@@ -23,6 +23,7 @@ const setGoals = asyncHandler(async (req, res) => {
 
   const goals = await Goal.create({
     text: req.body.text,
+    user: req.user.id,
   })
 
   res.json(goals)
@@ -30,12 +31,23 @@ const setGoals = asyncHandler(async (req, res) => {
 
 // @desc    Update the goal info
 // @route   PUT /api/uses
-// @access  public
+// @access  Private
 const updateGoals = asyncHandler(async (req, res) => {
   const goal = await Goal.findById(req.params.id)
   if (!goal) {
     res.status(400)
     throw new Error('Goal not found')
+  }
+
+  const user = await User.findById(req.user.id)
+  if (!user) {
+    res.status(401)
+    throw new Error('User not found')
+  }
+
+  if (goal.user.toString() !== user.id) {
+    res.status(401)
+    throw new Error('User not authorized')
   }
 
   // {new: true} means create it when it doesn't exist
@@ -50,12 +62,23 @@ const updateGoals = asyncHandler(async (req, res) => {
 
 // @desc    Delete a goal
 // @route   DELETE /api/uses
-// @access  public
+// @access  Private
 const deleteGoals = asyncHandler(async (req, res) => {
   const goal = await Goal.findById(req.params.id)
   if (!goal) {
     res.status(400)
     throw new Error('Goal not found')
+  }
+
+  const user = await User.findById(req.user.id)
+  if (!user) {
+    res.status(401)
+    throw new Error('User not found')
+  }
+
+  if (goal.user.toString() !== user.id) {
+    res.status(401)
+    throw new Error('User not authorized')
   }
 
   const deleteGoal = await Goal.findByIdAndRemove(req.params.id)
