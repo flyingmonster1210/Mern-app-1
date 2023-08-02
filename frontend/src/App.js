@@ -3,11 +3,14 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import DashBoard from './pages/DashBoard'
 import React from 'react'
+import Header from './components/Header'
+
 
 function App () {
   return (
     <Router>
       <div className='container'>
+        <Header />
         <Routes>
           <Route path='/' element={<DashBoard />} />
           <Route path='/register' element={<Register />} />
