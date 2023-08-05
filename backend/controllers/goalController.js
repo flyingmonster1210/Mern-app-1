@@ -15,7 +15,6 @@ const getGoals = asyncHandler(async (req, res) => {
 // @route   POST /api/uses
 // @access  Private
 const setGoals = asyncHandler(async (req, res) => {
-  // console.log(req.body)
   if (!req.body.text) {
     res.status(400)
     throw new Error('Please add a text field')
