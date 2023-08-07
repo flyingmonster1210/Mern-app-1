@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import GoalForm from '../components/GoalForm'
 import Spinner from '../components/Spinner'
+import GoalItem from '../components/GoalItem'
 import { getGoals, reset } from '../features/goals/goalSlice'
 
 function DashBoard() {
@@ -13,11 +14,8 @@ function DashBoard() {
   const { goals, isError, isLoading, message } = useSelector(
     (state) => state.goals
   )
-  // const goals = useSelector((state) => state.goals)
 
   useEffect(() => {
-    // console.log('goals: ', goals)
-    // console.log('user: ', user)
     if (!user) {
       navigate('/login')
     }
@@ -26,7 +24,6 @@ function DashBoard() {
       console.log('isError, message: ', message)
     }
 
-    console.log('before dispatch getGoals')
     dispatch(getGoals())
 
     return () => {
@@ -46,6 +43,20 @@ function DashBoard() {
       </section>
 
       <GoalForm />
+
+      <section className="content">
+        {goals.length > 0 ? (
+          <>
+            <div className="goals">
+              {goals.map((goal) => (
+                <GoalItem key={goal._id} goal={goal} />
+              ))}
+            </div>
+          </>
+        ) : (
+          <h3>You have not set any goals</h3>
+        )}
+      </section>
     </>
   )
 }
