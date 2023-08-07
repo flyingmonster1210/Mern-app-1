@@ -13,7 +13,6 @@ function GoalForm() {
     dispatch(createGoal({ text }))
     setText('')
   }
-  const onChange = (e) => {}
 
   return (
     <section className="form">
