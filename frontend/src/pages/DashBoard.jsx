@@ -16,20 +16,20 @@ function DashBoard() {
   )
 
   useEffect(() => {
-    if (!user) {
+    if (user && user.token && !isError) {
+      console.log('before getGoals')
+      dispatch(getGoals())
+    } else {
+      if (isError) {
+        console.log('isError, message: ', message)
+      }
       navigate('/login')
     }
-
-    if (isError) {
-      console.log('isError, message: ', message)
-    }
-
-    dispatch(getGoals())
 
     return () => {
       dispatch(reset())
     }
-  }, [isError, message, user, navigate, dispatch])
+  }, [dispatch, navigate, user, isError, message])
 
   if (isLoading) {
     return <Spinner />
